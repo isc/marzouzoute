@@ -18,7 +18,7 @@ ou modifies un jeu, pour que tout reste cohérent et fonctionne en production
   Le HTML/CSS/JS natif suffit. Le site doit fonctionner **hors-ligne**.
 - **Chemins relatifs uniquement.** Jamais de chemin commençant par `/`.
   C'est critique : le site est servi sous un sous-dossier
-  (`/reading-practice/`, et `/reading-practice/previews/<branche>/` pour les
+  (`/marzouzoute/`, et `/marzouzoute/previews/<branche>/` pour les
   previews). Un chemin absolu casse tout.
 
 ## Squelette d'un nouveau jeu
@@ -257,3 +257,8 @@ vraiment réglé.
   arrivent ensemble, et le déploiement pouvait disparaître. La file ne garantit
   l'ordre qu'au mieux : le déploiement publie donc la tête de main du moment,
   et n'est vert qu'une fois le site en train de la servir (`/.deploy-sha`).
+- **L'ancienne adresse `isc.github.io/reading-practice/`** (le nom du dépôt
+  jusqu'en novembre 2026) renvoie vers la même page ici, par le `404.html` du
+  dépôt `isc/isc.github.io` : les applis installées avant le renommage y
+  pointent encore. Ne jamais recréer de dépôt `isc/reading-practice` : il
+  prendrait la place de ce relais et couperait les redirections de GitHub.
