@@ -237,6 +237,13 @@ vraiment réglé.
 - Les nouvelles pages de jeu sont mises en cache **automatiquement** par le
   service worker à la première visite (aucune modif de `service-worker.js`
   nécessaire).
+- **L'`id` du manifeste garde l'ancienne adresse** (`/reading-practice/index.html`)
+  et ne change plus : c'est l'identité de l'appli. Sur Android, Chrome reconnaît
+  ainsi les icônes installées avant le renommage et les met à jour vers la
+  nouvelle adresse, sans réinstallation (testé sur l'émulateur, novembre 2026).
+  Il lit ce manifeste sur `reading-practice/index.html` du dépôt
+  `isc/isc.github.io`, qui attend 4 s avant de rediriger. Sur iPad, rien ne se
+  met à jour : cette page explique comment réinstaller.
 - N'incrémente `CACHE_VERSION` dans `service-worker.js` **que** si tu modifies un
   asset déjà précaché (la coquille) et veux forcer une purge immédiate.
 
@@ -258,7 +265,7 @@ vraiment réglé.
   l'ordre qu'au mieux : le déploiement publie donc la tête de main du moment,
   et n'est vert qu'une fois le site en train de la servir (`/.deploy-sha`).
 - **L'ancienne adresse `isc.github.io/reading-practice/`** (le nom du dépôt
-  jusqu'en novembre 2026) renvoie vers la même page ici, par le `404.html` du
-  dépôt `isc/isc.github.io` : les applis installées avant le renommage y
-  pointent encore. Ne jamais recréer de dépôt `isc/reading-practice` : il
-  prendrait la place de ce relais et couperait les redirections de GitHub.
+  jusqu'en novembre 2026) renvoie vers la même page ici, grâce au dépôt
+  `isc/isc.github.io` : les applis installées avant le renommage y pointent
+  encore. Ne jamais recréer de dépôt `isc/reading-practice` : il prendrait la
+  place de ce relais et couperait les redirections de GitHub.
