@@ -3,6 +3,7 @@
   "short_name": "Marzouzoute",
   "description": "Boîte à jeux éducatifs : lecture, orthographe, logique et jeux de société.",
   "lang": "fr",
+  "id": "/reading-practice/index.html",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
