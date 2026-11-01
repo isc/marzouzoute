@@ -18,6 +18,8 @@ concurrency:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # L'adresse du site suit le nom du dépôt.
+  SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
 
 jobs:
   build-and-deploy:
@@ -66,7 +68,7 @@ jobs:
           EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
           SLUG: ${{ steps.slug.outputs.slug }}
         run: |
-          url="https://isc.github.io/reading-practice/previews/$SLUG/.preview-sha"
+          url="$SITE_URL/previews/$SLUG/.preview-sha"
           for i in $(seq 1 60); do
             actual=$(curl -fsSL --max-time 10 "$url" 2>/dev/null | tr -d '[:space:]' || true)
             if [ "$actual" = "$EXPECTED_SHA" ]; then
@@ -89,7 +91,7 @@ jobs:
             message: |
               **Preview déployée** pour cette PR :
 
-              - 🎮 App : https://isc.github.io/reading-practice/previews/${{ steps.slug.outputs.slug }}/
+              - 🎮 App : ${{ env.SITE_URL }}/previews/${{ steps.slug.outputs.slug }}/
 
               Commit : `${{ github.event.pull_request.head.sha }}`
               _La preview est mise à jour à chaque push et supprimée à la fermeture de la PR._

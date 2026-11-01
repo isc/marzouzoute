@@ -77,10 +77,12 @@ jobs:
       - name: Attendre que le site serve ce commit
         env:
           GH_TOKEN: ${{ github.token }}
+          # L'adresse du site suit le nom du dépôt.
+          SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
         run: |
           wait_live() {
             for i in $(seq 1 120); do
-              actual=$(curl -fsSL --max-time 10 https://isc.github.io/reading-practice/.deploy-sha 2>/dev/null | tr -d '[:space:]' || true)
+              actual=$(curl -fsSL --max-time 10 "$SITE_URL/.deploy-sha" 2>/dev/null | tr -d '[:space:]' || true)
               if [ "$actual" = "$DEPLOY_SHA" ]; then
                 echo "En ligne avec $DEPLOY_SHA après ${i}×5s"
                 return 0

@@ -21,7 +21,7 @@ reste utilisable hors-ligne une fois les pages visitées.
 
 ## Déploiement — GitHub Pages
 
-Le site est publié sur GitHub Pages : <https://isc.github.io/reading-practice/>
+Le site est publié sur GitHub Pages : <https://isc.github.io/marzouzoute/>
 
 - **`.github/workflows/deploy.yml`** — à chaque push sur `main`, publie le dépôt
   à la racine de la branche `gh-pages` (via `peaceiris/actions-gh-pages`).
