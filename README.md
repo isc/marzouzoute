@@ -78,3 +78,18 @@ Une contributrice autorisée peut faire ajouter un jeu **sans écrire de code** 
 > Coûts : chaque exécution consomme des minutes GitHub Actions et puise dans le
 > quota de l'abonnement Claude lié au token (mêmes limites que l'usage interactif).
 > `--max-turns` borne les boucles.
+
+## Licence
+
+Le dépôt est sous licence [MIT](LICENSE), sauf ce qui vient d'ailleurs et garde
+sa propre licence :
+
+- [`dictionnaire.txt`](dictionnaire.txt) : lexique de
+  [Grammalecte](https://grammalecte.net), MPL 2.0.
+- [`explications/`](explications) : grammaire d'après Grammalecte (MPL 2.0) et
+  définitions d'après le [Wiktionnaire](https://fr.wiktionary.org), réécrites
+  pour les enfants (CC BY-SA 4.0).
+- [`outils/definitions.json`](outils/definitions.json) : ces mêmes définitions
+  (CC BY-SA 4.0).
+- Les polices (`*.woff2`) : SIL Open Font License 1.1, sauf Luckiest Guy
+  (Apache 2.0). Chaque fichier porte son copyright.
