@@ -102,5 +102,5 @@ sa propre licence :
   pour les enfants (CC BY-SA 4.0).
 - [`outils/definitions.json`](outils/definitions.json) : ces mêmes définitions
   (CC BY-SA 4.0).
-- Les polices (`*.woff2`) : [SIL Open Font License 1.1](OFL.txt), sauf Luckiest
-  Guy ([Apache 2.0](Apache-2.0.txt)).
+- Les polices (`*.woff2`) : [SIL Open Font License 1.1](licences/OFL.txt), sauf
+  Luckiest Guy ([Apache 2.0](licences/Apache-2.0.txt)).

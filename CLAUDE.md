@@ -111,7 +111,9 @@ ou modifies un jeu, pour que tout reste cohérent et fonctionne en production
     src: url("OpenDyslexic-Regular.woff2") format("woff2");
   }
   ```
-  Une nouvelle police ajoute son fichier et son copyright à la liste d'`OFL.txt`.
+  Une nouvelle police ajoute son fichier et son copyright à la liste de
+  `licences/OFL.txt` (dans ce dossier parce qu'à la racine, GitHub le prendrait
+  pour une seconde licence du dépôt et n'afficherait plus « MIT »).
 - Public : enfants. Vocabulaire simple, retours visuels clairs, ton bienveillant.
 
 ## Ressources partagées réutilisables (toutes en chemin relatif)
