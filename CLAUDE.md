@@ -111,6 +111,7 @@ ou modifies un jeu, pour que tout reste cohérent et fonctionne en production
     src: url("OpenDyslexic-Regular.woff2") format("woff2");
   }
   ```
+  Une nouvelle police ajoute son fichier et son copyright à la liste d'`OFL.txt`.
 - Public : enfants. Vocabulaire simple, retours visuels clairs, ton bienveillant.
 
 ## Ressources partagées réutilisables (toutes en chemin relatif)
