@@ -7,8 +7,28 @@
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="Boîte à jeux éducatifs : lecture, orthographe, logique et jeux de société."
+      content="Une boîte à jeux pour apprendre en s'amusant : lecture, orthographe, calcul, logique et jeux de plateau. Gratuit, sans compte ni publicité."
     />
+    <!-- Aperçu d'un lien partagé. Adresses absolues : les robots n'exécutent pas
+         le JS et il n'y a pas de build pour les calculer (voir CLAUDE.md). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://isc.github.io/marzouzoute/" />
+    <meta property="og:title" content="Marzouzoute — Boîte à jeux" />
+    <meta
+      property="og:description"
+      content="Une boîte à jeux pour apprendre en s'amusant : lecture, orthographe, calcul, logique et jeux de plateau. Gratuit, sans compte ni publicité."
+    />
+    <meta
+      property="og:image"
+      content="https://isc.github.io/marzouzoute/og-image.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Marzouzoute, une boîte à jeux pour apprendre en s'amusant, et les vignettes de quelques-uns de ses jeux."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Marzouzoute" />
@@ -3269,6 +3289,11 @@
          jeu, « titre » donne le nom et l'icône de Marzouzoute le dessin. -->
     <script type="application/json" id="nouveautes-data">
       [
+        {
+          "date": "2026-11-02",
+          "titre": "Partager Marzouzoute",
+          "texte": "Quand tu envoies Marzouzoute à quelqu'un, ton message montre maintenant une image de la boîte à jeux."
+        },
         {
           "date": "2026-11-01",
           "titre": "Nouvelle adresse",
