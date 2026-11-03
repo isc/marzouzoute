@@ -198,6 +198,21 @@ couleurs et sa propre police, avec un petit dessin de ce qui le caractérise
 Le reste suit tout seul : le nombre de jeux, les derniers jeux, et la bannière
 pleine largeur d'une famille au nombre de jeux impair sur téléphone.
 
+## Aperçu d'un lien partagé
+
+Les balises `og:` de `index.html` donnent l'aperçu d'un lien partagé (WhatsApp,
+iMessage…).
+
+- **`og-image.jpg`** montre le titre et des vignettes de l'accueil : si l'un d'eux
+  change, la refaire avec `outils/apercu.js`, jamais à la main. C'est un JPEG pour
+  rester léger : WhatsApp peut ignorer une image lourde.
+- **Adresses absolues** : `og:url` et `og:image` sont l'exception aux chemins
+  relatifs, car les robots n'exécutent pas le JS. À changer si le dépôt est
+  renommé. Une preview pointe donc vers l'image de production : une nouvelle image
+  ne se voit dans un partage qu'après le merge.
+- **Le slogan** de l'accueil est repris dans les balises et dans `share()` : s'il
+  change, changer aussi ces copies.
+
 ## Nouveautés
 
 Le menu de l'accueil (le bouton rond en haut à droite) ouvre « Quoi de
