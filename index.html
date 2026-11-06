@@ -605,8 +605,7 @@
         }
       }
 
-      :where(a, button):focus-visible,
-      .chip input:focus-visible + span {
+      :where(a, button):focus-visible {
         outline: 3px solid var(--focus);
         outline-offset: 3px;
       }
@@ -1211,42 +1210,6 @@
         color: var(--muted);
       }
 
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin: 0 0 1.1rem;
-        padding: 0;
-        border: none;
-      }
-
-      .chip {
-        position: relative;
-        cursor: pointer;
-      }
-
-      .chip input {
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      .chip span {
-        display: block;
-        padding: 0.6rem 0.95rem;
-        border: 1px solid var(--edge);
-        border-radius: 999px;
-        background: var(--glass);
-        font-size: 0.92rem;
-        font-weight: 600;
-      }
-
-      .chip input:checked + span {
-        border-color: transparent;
-        background: var(--text);
-        color: var(--night);
-      }
-
       .field {
         display: block;
         margin-bottom: 1.1rem;
@@ -1260,7 +1223,6 @@
       }
 
       .field input,
-      .field select,
       .field textarea {
         display: block;
         width: 100%;
@@ -1278,13 +1240,6 @@
         appearance: none;
       }
 
-      .field select {
-        padding-right: 2.6rem;
-        background: var(--glass)
-          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a9a2cc' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")
-          no-repeat right 0.95rem center / 1.1rem;
-      }
-
       .field textarea {
         min-height: 7.5rem;
         resize: vertical;
@@ -1292,7 +1247,6 @@
       }
 
       .field input:focus,
-      .field select:focus,
       .field textarea:focus {
         outline: none;
         border-color: var(--focus);
@@ -1688,34 +1642,9 @@
         <div class="sheet-body">
           <form id="avis-form">
             <p class="sheet-intro">
-              Une idée, un souci, un jeu qui manque&nbsp;? On lit tous les
-              messages.
+              Une idée, un souci, un jeu qui manque, ou juste un bravo&nbsp;? On
+              lit tous les messages.
             </p>
-            <fieldset class="chips">
-              <legend class="visually-hidden">C'est…</legend>
-              <label class="chip">
-                <input type="radio" name="category" value="idee" />
-                <span>Une idée</span>
-              </label>
-              <label class="chip">
-                <input type="radio" name="category" value="souci" />
-                <span>Un souci</span>
-              </label>
-              <label class="chip">
-                <input type="radio" name="category" value="jeu" />
-                <span>Un jeu qui manque</span>
-              </label>
-              <label class="chip">
-                <input type="radio" name="category" value="bravo" />
-                <span>J'adore&nbsp;!</span>
-              </label>
-            </fieldset>
-            <label class="field">
-              Quel jeu&nbsp;?
-              <select name="game" id="avis-game">
-                <option value="">Toute la boîte à jeux</option>
-              </select>
-            </label>
             <label class="field">
               Ton message
               <textarea
@@ -1723,6 +1652,7 @@
                 id="avis-message"
                 rows="5"
                 maxlength="5000"
+                placeholder="Écris ici ce que tu veux nous dire…"
                 required
               ></textarea>
             </label>
@@ -1740,7 +1670,7 @@
             <button class="send-button" type="submit">Envoyer</button>
             <p class="form-status" id="avis-status" role="status"></p>
             <p class="fine-print">
-              Avec ton message partent le jeu choisi et le modèle de ton
+              Avec ton message partent tes derniers jeux et le modèle de ton
               appareil, pour retrouver un souci. Rien d'autre.
             </p>
           </form>
@@ -3290,6 +3220,11 @@
     <script type="application/json" id="nouveautes-data">
       [
         {
+          "date": "2026-11-06",
+          "titre": "Écris-nous",
+          "texte": "Plus rien à choisir avant d'écrire : dis-nous simplement ce que tu veux, on lit tous les messages."
+        },
+        {
           "date": "2026-11-02",
           "titre": "Partager Marzouzoute",
           "texte": "Quand tu envoies Marzouzoute à quelqu'un, ton message montre maintenant une image de la boîte à jeux."
@@ -4041,40 +3976,10 @@
       const avisForm = document.getElementById("avis-form")
       const avisThanks = document.getElementById("avis-thanks")
       const avisStatus = document.getElementById("avis-status")
-      const avisGame = document.getElementById("avis-game")
       const avisMessage = document.getElementById("avis-message")
       const avisSend = avisForm.querySelector(".send-button")
-      const PLACEHOLDERS = {
-        "": "Écris ici ce que tu veux nous dire…",
-        idee: "Raconte ton idée…",
-        souci: "Qu'est-ce qui ne marche pas ? À quel moment ?",
-        jeu: "Quel jeu aimerais-tu trouver ici ?",
-        bravo: "Qu'est-ce qui te plaît ?",
-      }
-
-      function updateAvisForm() {
-        const category = avisForm.elements.category.value
-        // Un jeu qui manque n'est pas dans la liste : le champ se retire, et
-        // FormData le laisse de côté.
-        avisGame.disabled = category === "jeu"
-        avisGame.parentElement.hidden = avisGame.disabled
-        avisMessage.placeholder = PLACEHOLDERS[category]
-      }
 
       function openAvis() {
-        // Les jeux, par famille comme sur l'accueil, à la première ouverture.
-        if (avisGame.options.length === 1) {
-          categories.forEach((category) => {
-            const group = document.createElement("optgroup")
-            group.label = category
-              .querySelector(".category-title")
-              .textContent.trim()
-            category.querySelectorAll(".game").forEach((card) => {
-              group.append(new Option(gameName(card), card.dataset.game))
-            })
-            avisGame.append(group)
-          })
-        }
         avisForm.hidden = false
         avisThanks.hidden = true
         avisStatus.textContent = ""
@@ -4085,11 +3990,8 @@
             // Stockage indisponible : le champ reste vide.
           }
         }
-        updateAvisForm()
         openSheet(avis)
       }
-
-      avisForm.addEventListener("change", updateAvisForm)
 
       avisForm.addEventListener("submit", async (event) => {
         event.preventDefault()
@@ -4113,9 +4015,9 @@
               "Content-Type": "application/json",
               Prefer: "return=minimal",
             },
+            // Ni catégorie ni jeu : celui qui lit le message comprend de quoi
+            // il parle, et recent_games dit à quoi on a joué.
             body: JSON.stringify({
-              category: fields.category || null,
-              game: fields.game || null,
               message,
               email: email || null,
               context: {

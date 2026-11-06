@@ -20,8 +20,11 @@
 create table if not exists public.marzouzoute_feedback (
   id         uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
+  -- category et game ne sont plus remplis par le formulaire depuis 2026-11 : celui qui lit le
+  -- message comprend de quoi il parle, et context.recent_games dit à quoi on a joué. Ils restent
+  -- pour les anciens messages.
   category   text,          -- 'idee' | 'souci' | 'jeu' (un jeu qui manque) | 'bravo', ou rien
-  game       text,          -- le data-game d'une vignette de l'accueil, ou rien : toute la boîte
+  game       text,          -- le data-game d'une vignette de l'accueil, ou rien (avant : toute la boîte)
   message    text not null,
   email      text,          -- pour répondre, si la personne en a laissé une
   context    jsonb,         -- page, standalone, user_agent, viewport, locale, recent_games
@@ -101,11 +104,10 @@ begin
                  || coalesce(' · ' || new.game, ''),
       'html', format(
         '<blockquote style="border-left:3px solid #ddd;padding-left:12px;color:#333">%s</blockquote>'
-        '<p style="color:#666">%s · %s</p>'
+        '<p style="color:#666">%s</p>'
         '<p style="color:#999;font-size:13px">%s<br><code>python3 outils/retours.py traite %s</code></p>',
         texte,
-        coalesce(nullif(new.email, ''), 'sans adresse'),
-        coalesce(new.game, 'toute la boîte'),
+        concat_ws(' · ', coalesce(nullif(new.email, ''), 'sans adresse'), new.game),
         coalesce(new.context->>'page', ''),
         left(new.id::text, 8)
       )
