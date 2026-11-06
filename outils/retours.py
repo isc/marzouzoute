@@ -75,7 +75,7 @@ def ids(debuts):
 
 def lister(tous):
     lignes = requete(f"""
-        select id::text, status, category, game, email, message, context->>'page' as page,
+        select id::text, status, email, message, context->>'page' as page,
                to_char(created_at at time zone 'Europe/Paris', 'YYYY-MM-DD HH24:MI') as quand
           from public.marzouzoute_feedback
          {"" if tous else "where status = 'new'"}
@@ -85,15 +85,9 @@ def lister(tous):
         print("Aucun message." if tous else "Rien à traiter.")
         return
     for ligne in lignes:
-        etiquettes = " · ".join(filter(None, [
-            ligne["category"],
-            ligne["game"],
-            "preview" if "/previews/" in (ligne["page"] or "") else None,
-        ]))
         fait = " ✓" if ligne["status"] == "done" else ""
-        print(f"\n\033[1m{ligne['id'][:8]}\033[0m{fait}  {ligne['quand']}  {ligne['email'] or 'sans adresse'}")
-        if etiquettes:
-            print(f"         {etiquettes}")
+        preview = "  · preview" if "/previews/" in (ligne["page"] or "") else ""
+        print(f"\n\033[1m{ligne['id'][:8]}\033[0m{fait}  {ligne['quand']}  {ligne['email'] or 'sans adresse'}{preview}")
         for texte in ligne["message"].splitlines():
             print(f"  {texte}")
     a_traiter = sum(ligne["status"] == "new" for ligne in lignes)
