@@ -4015,8 +4015,6 @@
               "Content-Type": "application/json",
               Prefer: "return=minimal",
             },
-            // Ni catégorie ni jeu : celui qui lit le message comprend de quoi
-            // il parle, et recent_games dit à quoi on a joué.
             body: JSON.stringify({
               message,
               email: email || null,

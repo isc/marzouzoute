@@ -244,6 +244,8 @@ souci réparé) ajoute une entrée **en tête** du bloc
 Le menu ouvre aussi un formulaire de retours. Le message va dans la table
 `marzouzoute_feedback` du projet Supabase **d'Arabesque** (l'offre gratuite
 n'admet que deux projets), où la clé publique ne peut qu'ajouter des lignes.
+Il ne demande ni le type de message ni le jeu : celui qui lit comprend de quoi
+il parle, et le contexte envoyé dit à quoi on a joué.
 Un email prévient Ivan à chaque message. Le montage est dans
 `outils/retours.sql`. On lit les messages et on les range avec
 `outils/retours.py` (`voir`, `traite`, `rouvre`), qui passe par le jeton de la
