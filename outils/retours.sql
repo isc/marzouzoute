@@ -20,20 +20,20 @@
 create table if not exists public.marzouzoute_feedback (
   id         uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
-  category   text,          -- 'idee' | 'souci' | 'jeu' (un jeu qui manque) | 'bravo', ou rien
-  game       text,          -- le data-game d'une vignette de l'accueil, ou rien : toute la boîte
   message    text not null,
   email      text,          -- pour répondre, si la personne en a laissé une
   context    jsonb,         -- page, standalone, user_agent, viewport, locale, recent_games
   status     text not null default 'new'   -- 'new' à traiter, 'done' traité
 );
 
+-- Jusqu'en novembre 2026, le formulaire demandait aussi un type de message et un jeu. Aucun message
+-- n'était encore arrivé : les deux colonnes sont parties avec.
+alter table public.marzouzoute_feedback drop column if exists category, drop column if exists game;
+
 -- La page tient ces limites ; la base aussi, puisque n'importe qui peut écrire avec la clé publique.
 alter table public.marzouzoute_feedback drop constraint if exists marzouzoute_feedback_bornes;
 alter table public.marzouzoute_feedback add constraint marzouzoute_feedback_bornes check (
-  (category is null or category in ('idee', 'souci', 'jeu', 'bravo'))
-  and char_length(message) between 1 and 5000
-  and (game is null or char_length(game) <= 40)
+  char_length(message) between 1 and 5000
   and (email is null or char_length(email) <= 320)
   and (context is null or length(context::text) <= 8000)
   and status in ('new', 'done')
@@ -66,12 +66,6 @@ set search_path = public, extensions, vault
 as $$
 declare
   api_key text;
-  genre   text := case new.category
-                    when 'idee' then 'une idée'
-                    when 'souci' then 'un souci'
-                    when 'jeu' then 'un jeu qui manque'
-                    when 'bravo' then 'un bravo'
-                  end;
   texte   text;
 begin
   select decrypted_secret into api_key
@@ -97,15 +91,13 @@ begin
       'from', 'Marzouzoute <marzouzoute@arabesque.app>',
       'to', jsonb_build_array('ivan.schneider@hey.com'),
       'reply_to', coalesce(nullif(new.email, ''), 'ivan.schneider@hey.com'),
-      'subject', 'Marzouzoute : ' || coalesce(genre, 'un message')
-                 || coalesce(' · ' || new.game, ''),
+      'subject', 'Marzouzoute : un message',
       'html', format(
         '<blockquote style="border-left:3px solid #ddd;padding-left:12px;color:#333">%s</blockquote>'
-        '<p style="color:#666">%s · %s</p>'
+        '<p style="color:#666">%s</p>'
         '<p style="color:#999;font-size:13px">%s<br><code>python3 outils/retours.py traite %s</code></p>',
         texte,
         coalesce(nullif(new.email, ''), 'sans adresse'),
-        coalesce(new.game, 'toute la boîte'),
         coalesce(new.context->>'page', ''),
         left(new.id::text, 8)
       )
