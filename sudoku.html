@@ -511,12 +511,15 @@
       }
 
       /* Le chiffre et les notes se placent sur la case elle-même : centrés par
-         la grille du bouton, ils restaient en haut de la case sur un iPad. */
+         la grille du bouton, ils restaient en haut de la case sur un iPad. Le
+         chiffre couvre la case et se centre dans sa propre grille, sans
+         `translate` : l'iPad l'oublie pendant une animation de `transform`
+         (pop, tremble), comme dans la bataille navale (novembre 2026). */
       .cell .v {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        translate: -50% -50%;
+        inset: 0;
+        display: grid;
+        place-items: center;
       }
 
       .cell.given .v {
@@ -576,11 +579,11 @@
       @keyframes tremble {
         20%,
         60% {
-          transform: translateX(-12%);
+          transform: translateX(-0.07em);
         }
         40%,
         80% {
-          transform: translateX(12%);
+          transform: translateX(0.07em);
         }
       }
 
