@@ -266,17 +266,21 @@
       }
 
       /* Tout ce qui se pose sur un écran est placé en % de sa taille :
-         une case fait 10 %. */
+         une case fait 10 %. Une marge négative le centre sur son point
+         (l'écran est carré : une marge en % se compte sur la largeur).
+         Pas de `translate` : sur l'iPad, les points qui battent (une
+         animation de `transform`) sortaient de leur coque (novembre 2026). */
       .mark {
         position: absolute;
+        width: var(--size);
+        height: var(--size);
+        margin: calc(var(--size) / -2);
         border-radius: 50%;
-        translate: -50% -50%;
       }
 
       /* Un écho : un point de braise, avec son halo. */
       .blip {
-        width: 7%;
-        height: 7%;
+        --size: 7%;
       }
 
       .blip i {
@@ -298,8 +302,7 @@
 
       /* Un tir dans l'eau : un petit cercle qui reste. */
       .miss {
-        width: 3.4%;
-        height: 3.4%;
+        --size: 3.4%;
         border: 1px solid rgba(93, 255, 201, 0.45);
       }
 
@@ -313,8 +316,7 @@
 
       /* Une onde : un anneau fin qui grandit (ou revient, pour l'écho). */
       .wave {
-        width: 64%;
-        height: 64%;
+        --size: 64%;
         border: 1.5px solid var(--phos);
         opacity: 0;
       }
@@ -369,8 +371,7 @@
       }
 
       .dot {
-        width: 3%;
-        height: 3%;
+        --size: 3%;
         background: var(--phos);
         box-shadow: 0 0 6px var(--phos);
       }
